@@ -1,11 +1,10 @@
 <template>
-<header id="header" data-am-widget="header" class="am-header am-header-default">
+<header id="header" data-am-widget="header" class="am-header am-header-default"
+        style="background-color:rgba(0, 0, 0, 0.59)">
     <div class="am-container" id="page_header">
         <div class="am-g">
-            <div class="am-u-sm-2 logo">
-                <a v-link="{path: '/'}">
-                    <img src="http://static.guanghw.com/img/logo.png" width="140px" height="65px" style="margin-top: 8px;">
-                </a>
+            <div class="am-u-sm-2">
+                <a v-link="'/'"><i class="iconfont" style="font-size:30px;color:#fff">&#xe612;</i></a>
             </div>
             <div class="am-u-sm-6 title_control">
                 <h2 class="am-intro-title">个人中心</h2>

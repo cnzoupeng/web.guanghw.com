@@ -46,7 +46,8 @@ function getLocation(href) {
     return l;
 }
 
-var apiUrl = 'http://api.guanghw.com';
+//var apiUrl = 'http://api.guanghw.com';
+var apiUrl = 'http://localhost:88';
 
 //sessionStorage.setItem('uid', 962990);
 //sessionStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjk2Mjk5MCwiaWF0IjoxNDc1MjI1NTk4LCJleHAiOjEwMTE1MjI1NTk4fQ.c-WWg4lxahEdM2kBiZndgAoPvobMGQO6DLioPqAIADY');

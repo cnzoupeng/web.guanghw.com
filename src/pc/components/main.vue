@@ -126,7 +126,6 @@ export default {
                 url += '?' + param.join('&');
             }
 
-            console.log('refresh ' + url)
             this.$http.get(url).then(function (res) {
                 console.log(res.body);
                 for (var i in res.body.data) {

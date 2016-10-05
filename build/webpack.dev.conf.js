@@ -4,15 +4,31 @@ var merge = require('webpack-merge')
 var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path');
+
+var plat = 'mobile';
 
 // add hot-reload related code to entry chunks
-Object.keys(baseWebpackConfig.entry).forEach(function (name) {
-  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
-})
+baseWebpackConfig.entry = {
+  app: ['./build/dev-client', './src/' + plat + '/main.js']
+}
+
 
 module.exports = merge(baseWebpackConfig, {
+  entry: {
+    app: './src/' + plat + '/main.js'
+  },
   module: {
     loaders: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
+  },
+  resolve: {
+    extensions: ['', '.js', '.vue'],
+    fallback: [path.join(__dirname, '../node_modules')],
+    alias: {
+      'src': path.resolve(__dirname, '../src/' + plat),
+      'assets': path.resolve(__dirname, '../src/' + plat + '/assets'),
+      'components': path.resolve(__dirname, '../src/'  + plat +  '/components')
+    }
   },
   // eval-source-map is faster for development
   devtool: '#eval-source-map',

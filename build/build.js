@@ -14,13 +14,47 @@ console.log(
   '  Opening index.html over file:// won\'t work.\n'
 )
 
-var spinner = ora('building for production...')
+var plat = 'pc';
+var conf = config.build;
+var staticDir = './static/pc';
+webpackConfig.resolve.alias = {
+    'src': path.resolve(__dirname, '../pc/src'),
+    'assets': path.resolve(__dirname, '../pc/src/assets'),
+    'components': path.resolve(__dirname, '../pc/src/components')
+}
+webpackConfig.entry = {
+  app: './src/pc/main.js'
+}
+
+
+if(process.argv[2] && process.argv[2] == 'mobile'){
+  plat = 'mobile';
+  conf = config.mobile;
+  staticDir = './static/mobile';
+  webpackConfig.resolve.alias = {
+    'src': path.resolve(__dirname, '../mobile/src'),
+    'assets': path.resolve(__dirname, '../mobile/src/assets'),
+    'components': path.resolve(__dirname, '../mobile/src/components')
+  }
+  webpackConfig.entry = {
+    app: './src/mobile/main.js'
+  }
+  webpackConfig.plugins[4].options.filename = conf.index
+}
+
+webpackConfig.output.path = conf.assetsRoot;
+
+
+var spinner = ora('building for ' + plat + '...')
 spinner.start()
 
-var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
+var assetsPath = path.join(conf.assetsRoot, conf.assetsSubDirectory)
+
+console.log('assetsPath ' + assetsPath)
+
 rm('-rf', assetsPath)
-mkdir('-p', assetsPath)
-cp('-R', 'static/', assetsPath)
+mkdir('-p', conf.assetsRoot)
+cp('-R', staticDir, assetsPath)
 
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()
