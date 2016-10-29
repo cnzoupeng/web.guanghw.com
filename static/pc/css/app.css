@@ -331,6 +331,10 @@ li {
      margin:-2px;
 }
 
+#webColor {
+    color: #0e90d2 !important;
+}
+
 .picked {
     background-color: #ff946e;
     border-radius: 15px;
@@ -721,4 +725,8 @@ a > i {
     color: #f37b1d;
     font-size: 100%;
     margin-left: 5px;
+}
+
+.cursor_pointer {
+    cursor: pointer
 }

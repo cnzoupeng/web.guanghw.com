@@ -345,6 +345,10 @@ li {
     color: inherit;
 }
 
+#webColor {
+    color: #0e90d2 !important;
+}
+
 .edit_left {
     width: 80px;
     padding-left: 15px;

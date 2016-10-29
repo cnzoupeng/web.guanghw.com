@@ -9,6 +9,7 @@ function setContainerMinHeight () {
   }
 }
 
+
 function isWeiXinUa() {
     var ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == 'micromessenger') {
@@ -19,7 +20,7 @@ function isWeiXinUa() {
 }
 
 function getAuthUrl(curl){
-    var auth = encodeURIComponent('http://web.guanghw.com/auth/wx_oauth');
+    var auth = encodeURIComponent('http://www.guanghw.com/auth/wx_oauth');
     var url = '';
     if(isWeiXinUa()){
         var state = "wx" + "_" + curl;
@@ -46,8 +47,8 @@ function getLocation(href) {
     return l;
 }
 
-//var apiUrl = 'http://api.guanghw.com';
-var apiUrl = 'http://localhost:88';
+var apiUrl = 'http://api.guanghw.com';
+//var apiUrl = 'http://localhost:88';
 
 //sessionStorage.setItem('uid', 962990);
 //sessionStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjk2Mjk5MCwiaWF0IjoxNDc1MjI1NTk4LCJleHAiOjEwMTE1MjI1NTk4fQ.c-WWg4lxahEdM2kBiZndgAoPvobMGQO6DLioPqAIADY');

@@ -9,6 +9,59 @@ function setContainerMinHeight () {
   }
 }
 
+
+function getPxNum(px){
+    var num = '';
+    for(var i = 0 ; i < px.length; ++i){
+        var c = px.charAt(i);
+        if((c >= '0' && c <= '9') || c == '.'){
+            num += c;
+        }
+        else{
+            break;
+        }
+    }
+    if(num.length > 0){
+        return parseFloat(num);
+    }
+    return 0;
+}
+
+function getShortIntroduce(intro, count){
+    var short = '';
+    if(intro == null){
+        return short;
+    }
+    var short_len = 0;
+    var max_len = count * 2;
+    var i = 0;
+    while(short_len < max_len && i < intro.length){
+        short_len += intro.charCodeAt(i) > 255 ? 2 : 1;
+        i++;
+    }
+    if(i > 0){
+        short = intro.substr(0, i);
+        if(i < intro.length){
+            short += ' . . .';
+        }
+    }
+    return short;
+}
+
+function calc_line_count(){
+    var width = document.getElementById('header').clientWidth;
+    var intr = document.getElementById('introduce');
+    var css = window.getComputedStyle(intr, null);
+    var fontsize = css.fontSize;
+    width -= 90;
+    fontsize = getPxNum(fontsize);
+    var line_count = parseInt(width / fontsize);
+    var show_count = line_count * 3;
+    show_count += line_count / 2;
+    return show_count;
+}
+
+
 function isWeiXinUa() {
     var ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == 'micromessenger') {
@@ -19,7 +72,7 @@ function isWeiXinUa() {
 }
 
 function getAuthUrl(curl){
-    var auth = encodeURIComponent('http://web.guanghw.com/auth/wx_oauth');
+    var auth = encodeURIComponent('http://www.guanghw.com/auth/wx_oauth');
     var url = '';
     if(isWeiXinUa()){
         var state = "wx" + "_" + curl;
@@ -46,8 +99,24 @@ function getLocation(href) {
     return l;
 }
 
-//var apiUrl = 'http://api.guanghw.com';
-var apiUrl = 'http://localhost:88';
+var expDay = 30;
+function setCookie(name, value) {
+	var d = new Date;
+	d.setTime(d.getTime() + 24*60*60*1000*expDay);
+	window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+}
 
-sessionStorage.setItem('uid', 962990);
-sessionStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjk2Mjk5MCwiaWF0IjoxNDc1MjI1NTk4LCJleHAiOjEwMTE1MjI1NTk4fQ.c-WWg4lxahEdM2kBiZndgAoPvobMGQO6DLioPqAIADY');
+function getCookie(name) {
+	var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	return v ? v[2] : null;
+}
+
+function delCookie(name) {
+	setCookie(name, '', -1);
+}
+
+var apiUrl = 'http://api.guanghw.com';
+//var apiUrl = 'http://localhost:88';
+
+//sessionStorage.setItem('uid', 963636);
+//sessionStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjk2MzYzNiwiaWF0IjoxNDc3MjE4MDE3LCJleHAiOjEwMTE3MjE4MDE3fQ.LCgP0GKfXwvj9uhS512h4oxKV523hTuUIgY808p-fOY');

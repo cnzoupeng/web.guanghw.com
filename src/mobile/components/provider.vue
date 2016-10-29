@@ -1,6 +1,6 @@
 <template>
 <xheader></xheader>
-<div id="container" class="container am-container" style="padding-top: 30px !important;">
+<div id="container" class="container am-container">
     <div id="page_provider">
         <div class="topIntro">
             <div class="upHead">
@@ -10,7 +10,6 @@
         </div>
 
         <div style="background-color: white">
-            <div class="info_left" style="float: left;width: 400px">
                 <div class="am-g infoLine infoLineFirst">
                     <!--<div class="provider_left"><i class="am-icon-user"></i></div>-->
                     <div class="provider_left"><i class="iconfont" style="font-size: 170%;">&#xe604;</i></div>
@@ -38,31 +37,29 @@
                 <div v-if=user.web class="am-g infoLine">
                     <!--<div class="provider_left"><i class="am-icon-edge"></i></div>-->
                     <div class="provider_left"><i class="iconfont">&#xe603;</i></div>
-                    <div class="provider_right"><a href="http://{{user.web}}" target="_blank">{{user.web}}</a></div>
+                    <div class="provider_right"><a class='webColor' href="http://{{user.web}}" target="_blank">{{user.web}}</a></div>
                 </div>
             </div>
-            <div class="info_right" style="margin-left: 400px;padding-top: 20px;border-left:2px solid #eeeeee">
-                <div class="am-g infoLine" style="position: relative">
-                    <div class="am-u-sm-12 introduce" style="margin-bottom: 70px">{{user.introduce}}</div>
-                    <div class="am-u-sm-12 " style="position: absolute;bottom: 0">
-                        <div style="width: 300px;margin: 0 auto">
-                            <ul class="interact_panel">
-                                <li v-if=user.mark id="li_mark"><i id='bt_mark' class="iconfont marked_color" v-on:click="unmark()" state="mark">&#xe619;</i></li>
-                                <li v-else id="li_mark"><i id='bt_mark' class="iconfont" v-on:click="mark()" state="unmark">&#xe60c;</i></li>
-                            
-                                <li v-if=user.thumb id="li_thumb"><i id='bt_thumb' v-on:click=" thumb_cancel()" class="iconfont marked_color" state="up">&#xe614;</i></li>
-                                <li v-else id="li_thumb"><i id='bt_thumb' v-on:click="thumb_up()" class="iconfont" state="cancel">&#xe615;</i></li>
+            <div class="am-g infoLine" style="position: relative">
+                <div class="am-u-sm-12 introduce" style="margin-bottom: 70px">{{user.introduce}}</div>
+                <div class="am-u-sm-12 " style="position: absolute;bottom: 0">
+                    <div style="width: 300px;margin: 0 auto">
+                        <ul class="interact_panel">
+                            <li v-if=user.mark id="li_mark"><i id='bt_mark' class="iconfont marked_color" v-on:click="unmark()" state="mark">&#xe619;</i></li>
+                            <li v-else id="li_mark"><i id='bt_mark' class="iconfont" v-on:click="mark()" state="unmark">&#xe60c;</i></li>
+                        
+                            <li v-if=user.thumb id="li_thumb"><i id='bt_thumb' v-on:click=" thumb_cancel()" class="iconfont marked_color" state="up">&#xe614;</i></li>
+                            <li v-else id="li_thumb"><i id='bt_thumb' v-on:click="thumb_up()" class="iconfont" state="cancel">&#xe615;</i></li>
 
-                                <li class="ip_last"><i onclick="report()" class="iconfont">&#xe61e;</i></li>
-                                <li class="ip_last"><i onclick="open_qq()" class="iconfont">&#xe61f;</i></li>
-                            </ul>
-                            <ul class="interact_panel_text">
-                                <li id="thump_txt"><span>收藏</span></li>
-                                <li id="mark_txt"><span>点赞(<span id="thumbCount">{{user.thumbCount}}</span>)</span></li>
-                                <li class="ip_last"><span >举报</span></li>
-                                <li class="ip_last"><span >客服</span></li>
-                            </ul>
-                        </div>
+                            <li class="ip_last"><i onclick="report()" class="iconfont">&#xe61e;</i></li>
+                            <li class="ip_last"><i onclick="open_qq()" class="iconfont">&#xe61f;</i></li>
+                        </ul>
+                        <ul class="interact_panel_text">
+                            <li id="thump_txt"><span>收藏</span></li>
+                            <li id="mark_txt"><span>点赞(<span id="thumbCount">{{user.thumbCount}}</span>)</span></li>
+                            <li class="ip_last"><span >纠错</span></li>
+                            <li class="ip_last"><span >客服</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -122,7 +119,7 @@ export default {
     ready: function () {
         setContainerMinHeight()
 
-        var uid = sessionStorage.getItem('uid');
+        var uid = getCookie('uid');
         if(uid){
             this.$set('notLogin', false);
         }
@@ -142,7 +139,7 @@ export default {
                 return;
             }
 
-            var uid = sessionStorage.getItem('uid');
+            var uid = getCookie('uid');
             var puid = getuid();
             var postData = {from: uid, to: puid, msg: msg};
             this.$http.post(apiUrl + '/user/msg', postData).then(function (res) {               

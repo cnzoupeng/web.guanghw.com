@@ -5,7 +5,7 @@
         <div style="width: 100%;margin:0 auto">
             <div class="header-x-icon">
                 <!--<a href="/" class="am-header-icon am-icon-home"></a>-->
-                <a v-link="'/'"><i class="iconfont">&#xe612;</i></a>
+                <a v-link="'/'" v-on:click="index()"><i class="iconfont">&#xe612;</i></a>
             </div>
             <div class="header-x-search">
                 <form id="formSearch" action="/" v-on:submit.prevent="updateData()">
@@ -30,15 +30,15 @@
   <div id="indus_panel" class='userBack indusBg'>
       <div class="indusTitle"><i class="iconfont">&#xe617;</i><span>免费咨询分类</span></div>
       <ul>
-          <li id="yxtg"><a v-link="'/?industry=营销咨询'" class="plat_href" v-on:click="updateData('营销咨询')">营销咨询</a></li>
-          <li id="wzkf"><a v-link="'/?industry=技术咨询'" class="plat_href" v-on:click="updateData('技术咨询')">技术咨询</a></li>
-          <li id="tstz"><a v-link="'/?industry=创业咨询'" class="plat_href" v-on:click="updateData('创业咨询')">创业咨询</a></li>
-          <li id="qzzp"><a v-link="'/?industry=职业咨询'" class="plat_href" v-on:click="updateData('职业咨询')">职业咨询</a></li>
-          <li id="tzlc"><a v-link="'/?industry=理财咨询'" class="plat_href" v-on:click="updateData('理财咨询')">理财咨询</a></li>
-          <li id="mgsj"><a v-link="'/?industry=设计咨询'" class="plat_href" v-on:click="updateData('设计咨询')">设计咨询</a></li>
-          <li id="px"><a v-link="'/?industry=法律咨询'" class="plat_href" v-on:click="updateData('法律咨询')">法律咨询</a></li>
-          <li id="px"><a v-link="'/?industry=心理咨询'" class="plat_href" v-on:click="updateData('心理咨询')">心理咨询</a></li>
-          <li id="qt"><a v-link="'/?industry=其他'" class="plat_href" v-on:click="updateData('其他')">其他</a></li>
+          <li id="yxtg"><a v-link="'/?industry=营销咨询'" class="plat_href" v-on:click="queryIndustry('营销咨询')">营销咨询</a></li>
+          <li id="wzkf"><a v-link="'/?industry=技术咨询'" class="plat_href" v-on:click="queryIndustry('技术咨询')">技术咨询</a></li>
+          <li id="tstz"><a v-link="'/?industry=创业咨询'" class="plat_href" v-on:click="queryIndustry('创业咨询')">创业咨询</a></li>
+          <li id="qzzp"><a v-link="'/?industry=职业咨询'" class="plat_href" v-on:click="queryIndustry('职业咨询')">职业咨询</a></li>
+          <li id="tzlc"><a v-link="'/?industry=理财咨询'" class="plat_href" v-on:click="queryIndustry('理财咨询')">理财咨询</a></li>
+          <li id="mgsj"><a v-link="'/?industry=设计咨询'" class="plat_href" v-on:click="queryIndustry('设计咨询')">设计咨询</a></li>
+          <li id="px"><a v-link="'/?industry=法律咨询'" class="plat_href" v-on:click="queryIndustry('法律咨询')">法律咨询</a></li>
+          <li id="px"><a v-link="'/?industry=心理咨询'" class="plat_href" v-on:click="queryIndustry('心理咨询')">心理咨询</a></li>
+          <li id="qt"><a v-link="'/?industry=其他'" class="plat_href" v-on:click="queryIndustry('其他')">其他</a></li>
       </ul>
   </div>
 
@@ -77,6 +77,14 @@
           </div>
       </div>
   </div>
+  <ul class="am-pagination am-pagination-default">
+        <li class="am-pagination-prev">
+            <a id="page_prev" v-on:click="loadPrevPage()" class="am-btn am-btn-link page_ctrl">上一页</a>
+        </li>
+        <li class="am-pagination-next ">
+            <a id="page_next" v-on:click="loadNextPage()" class="am-btn am-btn-link page_ctrl">下一页</a>
+        </li>
+    </ul>
 </div>
 <xfooter></xfooter>
 </template>
@@ -88,57 +96,6 @@ import Vue from 'vue'
 import VueRes from 'vue-resource'
 
 Vue.use(VueRes);
-
-function getPxNum(px){
-    var num = '';
-    for(var i = 0 ; i < px.length; ++i){
-        var c = px.charAt(i);
-        if((c >= '0' && c <= '9') || c == '.'){
-            num += c;
-        }
-        else{
-            break;
-        }
-    }
-    if(num.length > 0){
-        return parseFloat(num);
-    }
-    return 0;
-}
-
-function getShortIntroduce(intro, count){
-    var short = '';
-    if(intro == null){
-        return short;
-    }
-    var short_len = 0;
-    var max_len = count * 2;
-    var i = 0;
-    while(short_len < max_len && i < intro.length){
-        short_len += intro.charCodeAt(i) > 255 ? 2 : 1;
-        i++;
-    }
-    if(i > 0){
-        short = intro.substr(0, i);
-        if(i < intro.length){
-            short += ' . . .';
-        }
-    }
-    return short;
-}
-
-function calc_line_count(){
-    var width = document.getElementById('header').clientWidth;
-    var intr = document.getElementById('introduce');
-    var css = window.getComputedStyle(intr, null);
-    var fontsize = css.fontSize;
-    width -= 90;
-    fontsize = getPxNum(fontsize);
-    var line_count = parseInt(width / fontsize);
-    var show_count = line_count * 3;
-    show_count += line_count / 2;
-    return show_count;
-}
 
 function getSearchKey(children){
     var key = '';
@@ -156,6 +113,11 @@ export default {
   data () {
     return {
         key: '',
+        industry: '',
+        page: {
+            cur: 0,
+            last: false
+        },
         users: []
     }
   },
@@ -165,20 +127,18 @@ export default {
   },
    methods: {
         updateData: function(industry){
-            var key = this.key;
             var url = apiUrl;
-            var param = [];
-            if(industry){
-                param.push('industry=' + industry);
+            var param = ['page=' + this.page.cur];
+            if(this.industry){
+                param.push('industry=' + this.industry);
             }
-            if(key){
-                param.push('key=' + key);
+            if(this.key){
+                param.push('key=' + this.key);
             }
             if(param.length > 0){
                 url += '?' + param.join('&');
             }
 
-            console.log('refresh ' + url)
             this.$http.get(url).then(function (res) {
                 console.log(res.body);
                 var showCount = calc_line_count();
@@ -186,11 +146,46 @@ export default {
                     res.body.data[i].introduce = getShortIntroduce(res.body.data[i].introduce, showCount);
                     res.body.data[i].url = '/provider/' + res.body.data[i].uid;
                 }
-                this.$set('users', res.body.data);
+                this.users = res.body.data;
+                if(res.body.data.length == 10){
+                    this.page.last = false;
+                }
+                else{
+                    this.page.last = true;
+                }
             }, function (data) {
                 console.log('load data failed');
                 console.log(data);
             });
+        },
+        loadPrevPage: function(){
+            if(this.page.cur <= 0){
+                return;
+            }
+            this.page.cur--;
+            this.updateData();
+        },
+        loadNextPage: function(){
+            if(this.page.last){
+                return;
+            }
+            this.page.cur++;
+            this.updateData();
+        },
+        queryIndustry: function(industry){
+            this.industry = industry;
+            this.page.curl = 0;
+            this.updateData();
+        },
+        index: function(){
+            this.industry = '';
+            this.page.curl = 0;
+            this.key = '';
+            this.updateData();
+        },
+        new_window: function(url){
+            window.open(url);
+            return false;
         }
    }
 }

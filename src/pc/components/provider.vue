@@ -38,7 +38,7 @@
                 <div v-if=user.web class="am-g infoLine">
                     <!--<div class="provider_left"><i class="am-icon-edge"></i></div>-->
                     <div class="provider_left"><i class="iconfont">&#xe603;</i></div>
-                    <div class="provider_right"><a href="http://{{user.web}}" target="_blank">{{user.web}}</a></div>
+                    <div class="provider_right"><a class='webColor' href="http://{{user.web}}" target="_blank">{{user.web}}</a></div>
                 </div>
             </div>
             <div class="info_right" style="margin-left: 400px;padding-top: 20px;border-left:2px solid #eeeeee">
@@ -59,7 +59,7 @@
                             <ul class="interact_panel_text">
                                 <li id="thump_txt"><span>收藏</span></li>
                                 <li id="mark_txt"><span>点赞(<span id="thumbCount">{{user.thumbCount}}</span>)</span></li>
-                                <li class="ip_last"><span >举报</span></li>
+                                <li class="ip_last"><span >纠错</span></li>
                                 <li class="ip_last"><span >客服</span></li>
                             </ul>
                         </div>

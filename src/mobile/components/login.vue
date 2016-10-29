@@ -1,5 +1,6 @@
 
 <script>
+import Vue from 'vue'
 export default {
   data () {
     return {
@@ -14,12 +15,14 @@ export default {
     }
     this.$http.get(apiUrl + '/auth/wx_oauth' + location.search).then(function (res) {
         if(res.status != 200 || res.body.code != 0){
+	    alert('auth failed');
             console.log('login failed');
             console.log(res);
             return;
         }
-        sessionStorage.setItem('uid', res.body.uid);
-        sessionStorage.setItem('token', res.body.token);
+        Vue.http.headers.common['Authorization']  = 'Bearer ' + res.body.token;
+	setCookie('uid', res.body.uid);
+        setCookie('token', res.body.token);
         this.$router.go(res.body.jump);
     })
   }

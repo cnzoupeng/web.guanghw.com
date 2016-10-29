@@ -245,27 +245,27 @@ function isMobile(str) {
 }
 
 function validate(user){
-    if(user.name.length < 1){
+    if(!user.name || user.name.length < 1){
         alert('请填写 姓名');
         return false;
     }
 
-    if(user.title.length < 1){
+    if(!user.title || user.title.length < 1){
         alert('请填写 标题');
         return false;
     }
 
-    if(user.service.length < 1){
+    if(!user.service || user.service.length < 1){
         alert('请填写 服务项目');
         return false;
     }
 
-    if(user.introduce.length < 1){
+    if(!user.introduce || user.introduce.length < 1){
         alert('请填写 个人简介');
         return false;
     }
 
-    if(user.mobile.length != 11 || !isMobile(user.mobile)){
+    if(!user.mobile || user.mobile.length != 11 || !isMobile(user.mobile)){
         alert('请填写正确的手机号码');
         return false;
     }
@@ -289,7 +289,7 @@ export default {
     },
     ready: function () {
         setContainerMinHeight()
-        var uid = sessionStorage.getItem('uid');
+        var uid = getCookie('uid');
         this.$http.get(apiUrl + '/user/info/' + uid).then(function (res) {
             if(res.body.code != 0){
                 console.log('load info failed');
@@ -337,7 +337,7 @@ export default {
             console.log(file);
             var form = new FormData();
             var xhr = new XMLHttpRequest();
-            var uid = sessionStorage.getItem('uid');
+            var uid = getCookie('uid');
             form.append('Content-Type', 'application/octet-stream');
             form.append('uid', uid);
             form.append('fname', encodeURIComponent(file.name));
@@ -365,7 +365,7 @@ export default {
             }.bind(this);
 
             xhr.open("POST", this.action, true);
-            var token = sessionStorage.getItem('token');
+            var token = getCookie('token');
             if(token){
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
             }

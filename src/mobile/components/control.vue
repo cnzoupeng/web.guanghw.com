@@ -63,7 +63,7 @@ export default {
     },
     ready: function () {
         setContainerMinHeight();
-        var uid = sessionStorage.getItem('uid');
+        var uid = getCookie('uid');
         this.$http.get(apiUrl + '/user/info/' + uid).then(function (res) {
             console.log(res.body)
             res.body.data.url = '/provider/' + uid;

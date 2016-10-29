@@ -1,5 +1,7 @@
 
 <script>
+  import Vue from 'vue'
+
 export default {
   data () {
     return {
@@ -18,6 +20,7 @@ export default {
             console.log(res);
             return;
         }
+        Vue.http.headers.common['Authorization']  = 'Bearer ' + res.body.token;
         sessionStorage.setItem('uid', res.body.uid);
         sessionStorage.setItem('token', res.body.token);
         this.$router.go(res.body.jump);
