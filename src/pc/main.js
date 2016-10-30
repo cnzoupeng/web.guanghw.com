@@ -24,7 +24,7 @@ var publicUrl = {
 }
 
 function init(){
-    var token = sessionStorage.getItem('token');
+    var token = getCookie('token');
     if(token){
       Vue.http.headers.common['Authorization']  = 'Bearer ' + token;
     }
@@ -75,7 +75,7 @@ router.beforeEach(function (transition) {
   }
 
   //已经登录
-  var uid = sessionStorage.getItem('uid');
+  var uid = getCookie('uid');
   if(isNumber(parseInt(uid))){
     transition.next();
     return;

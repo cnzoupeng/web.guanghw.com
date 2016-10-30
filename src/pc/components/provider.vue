@@ -122,7 +122,7 @@ export default {
     ready: function () {
         setContainerMinHeight()
 
-        var uid = sessionStorage.getItem('uid');
+        var uid = getCookie('uid');
         if(uid){
             this.$set('notLogin', false);
         }
@@ -142,7 +142,7 @@ export default {
                 return;
             }
 
-            var uid = sessionStorage.getItem('uid');
+            var uid = getCookie('uid');
             var puid = getuid();
             var postData = {from: uid, to: puid, msg: msg};
             this.$http.post(apiUrl + '/user/msg', postData).then(function (res) {               

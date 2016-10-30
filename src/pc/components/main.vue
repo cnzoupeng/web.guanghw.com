@@ -151,7 +151,7 @@ export default {
             this.$http.get(url).then(function (res) {
                 console.log(res.body);
                 for (var i in res.body.data) {
-                    res.body.data[i].introduce = getShortIntro(res.body.data[i].introduce);
+                    res.body.data[i].introduce = getShortIntro(res.body.data[i].introduce, 120);
                     res.body.data[i].url = '/provider/' + res.body.data[i].uid;
                 }
                 this.users = res.body.data;

@@ -23,11 +23,11 @@
             小提醒：资料越完善系统排名越靠前，请耐心填写。
         </div>
         <div class="am-g edit_line">
-            <div class="edit_left" :style="{backgroundImage: 'url(' + user.avatar + ')'}" style="width: 100px;height:100px;border-radius:200px;background-size:100% 100%;margin-left: 15px">
+            <div class="edit_left" :style="{backgroundImage: 'url(' + user.avatar + ')'}" style="width: 100px;height:100px;border-radius:200px;background-size:100% 100%;margin-left: 15px" v-on:click="choseFile">
             </div>
-            <div id="input-file">
-                <span id="text">点击上传</span>
-                <input type="file" id="upload" accept="image/gif, image/jpeg, image/png" v-on:change="uploadFile" multiple="false"></label>
+            <div class="edit_right" style="text-align: right;margin-top: 70px;margin-right: 15px">
+                <span id="upload_msg" >{{upload_msg}}</span>
+                <input style="display:none" type="file" id="upload" accept="image/gif, image/jpeg, image/png" v-on:change="uploadFile" multiple="false"></label>
             </div>
         </div>
 
@@ -280,7 +280,7 @@ export default {
             prov: '',
             ucity: '',
             citys: [],
-            
+            upload_msg: '',
             headers: {},
             method: 'POST',
             action: apiUrl + '/user/avatar',
@@ -289,8 +289,8 @@ export default {
     },
     ready: function () {
         setContainerMinHeight()
-        var uid = sessionStorage.getItem('uid');
-        this.$http.get(apiUrl + '/user/info/' + uid).then(function (res) {
+        var uid = getCookie('uid');
+        this.$http.get(apiUrl + '/user/info_p').then(function (res) {
             if(res.body.code != 0){
                 console.log('load info failed');
                 console.log(res.body);
@@ -314,7 +314,7 @@ export default {
                 return;
             }
 
-            this.$http.post(apiUrl + '/user/info/', user).then(function (res) {
+            this.$http.post(apiUrl + '/user/info_p', user).then(function (res) {
                 if(res.body.code != 0){
                     console.log('post info failed');
                     console.log(res.body)
@@ -323,52 +323,52 @@ export default {
             }, function (res) {
                 console.log(res)
             });
+        },        
+        choseFile: function(){
+            document.querySelector('#upload').click();
         },
-        
         uploadFile: function() {
-            
             var files = document.getElementById('upload').files;
-            console.log('start upload' + files)
             if(!files){
                 return;
             }
-            var file = files[0];
-            console.log(file);
-            var form = new FormData();
-            var xhr = new XMLHttpRequest();
-            var uid = sessionStorage.getItem('uid');
-            form.append('Content-Type', 'application/octet-stream');
-            form.append('uid', uid);
-            form.append('fname', encodeURIComponent(file.name));
-            form.append('file', file);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState < 4) {
-                    return;
-                }
-                if (xhr.status < 400) {
-                    var res = JSON.parse(xhr.responseText);
-                    console.log(xhr.responseText);
-                } else {
-                    var err = JSON.parse(xhr.responseText);
-                    err.status = xhr.status;
-                    err.statusText = xhr.statusText;
-                    console.log(err)
-                }
-            }.bind(this);
-
-            xhr.onerror = function() {
-                var err = JSON.parse(xhr.responseText);
-                err.status = xhr.status;
-                err.statusText = xhr.statusText;
-                reject(err);
-            }.bind(this);
-
-            xhr.open("POST", this.action, true);
-            var token = sessionStorage.getItem('token');
-            if(token){
+            var uid = getCookie('uid');
+            var tag = /\.[^\.]+/.exec(files[0].name);
+            var fileName = uid + tag;
+            var vuex = this;
+            lrz(files[0], {width: 120, height: 120}, function(results){
+                var data = {
+                    base64: results.base64,
+                    size: results.base64.length,
+                    name: fileName
+                };
+                var token = getCookie('token');
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', vuex.action);
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');    
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-            }
-            xhr.send(form);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var res = JSON.parse(xhr.responseText);
+                        if(res.code == 0 && res.url){
+                            vuex.user.avatar = res.url;
+                            vuex.upload_msg = '更新成功';
+                        }
+                    } else {
+                        vuex.upload_msg = '更新失败，系统错误';
+                    }
+                };
+
+                xhr.onerror = function () {
+                    vuex.upload_msg = '更新失败，网络错误';
+                };
+
+                xhr.upload.onprogress = function (e) {
+                    var percentComplete = ((e.loaded / e.total) || 0) * 100;
+                };
+                xhr.send(JSON.stringify(data));
+                vuex.upload_msg = '上传中...';
+            });
         }
     },
     watch: {

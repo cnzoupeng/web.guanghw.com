@@ -73,6 +73,7 @@ router.beforeEach(function (transition) {
     transition.next();
     return;
   }
+
   //已经登录
   var uid = getCookie('uid');
   if(isNumber(parseInt(uid))){

@@ -72,7 +72,7 @@ function isWeiXinUa() {
 }
 
 function getAuthUrl(curl){
-    var auth = encodeURIComponent('http://www.guanghw.com/auth/wx_oauth');
+    var auth = encodeURIComponent('http://web.guanghw.com/auth/wx_oauth');
     var url = '';
     if(isWeiXinUa()){
         var state = "wx" + "_" + curl;
@@ -118,5 +118,5 @@ function delCookie(name) {
 var apiUrl = 'http://api.guanghw.com';
 //var apiUrl = 'http://localhost:88';
 
-//sessionStorage.setItem('uid', 963636);
-//sessionStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjk2MzYzNiwiaWF0IjoxNDc3MjE4MDE3LCJleHAiOjEwMTE3MjE4MDE3fQ.LCgP0GKfXwvj9uhS512h4oxKV523hTuUIgY808p-fOY');
+//setCookie('uid', 963636);
+//setCookie('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjk2MzYzNiwiaWF0IjoxNDc3MjE4MDE3LCJleHAiOjEwMTE3MjE4MDE3fQ.LCgP0GKfXwvj9uhS512h4oxKV523hTuUIgY808p-fOY');

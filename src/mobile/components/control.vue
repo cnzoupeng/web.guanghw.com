@@ -17,7 +17,7 @@
     <div id="page_control">
         <div class="am-g firstLine" style="padding: 10px">
             <div style="position: relative">
-                <p style="position: absolute;left: 150px;top: 40px;font-size: 150%;">{{user.name}}</p>
+                <p style="position: absolute;left: 150px;font-size: 150%;">{{user.name}}</p>
                 <div class="contrlHeader" :style="{backgroundImage: 'url(' + user.avatar + ')'}"></div>
             </div>
         </div>
