@@ -20,7 +20,7 @@ function isWeiXinUa() {
 }
 
 function getAuthUrl(curl){
-    var auth = encodeURIComponent('http://web.guanghw.com/auth/wx_oauth');
+    var auth = encodeURIComponent('http://www.guanghw.com/auth/wx_oauth');
     var url = '';
     if(isWeiXinUa()){
         var state = "wx" + "_" + curl;
