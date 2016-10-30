@@ -34,7 +34,7 @@
         <div class="am-g edit_line">
             <div class="edit_left">真实姓名</div>
             <div class="edit_right">
-                <input id="edit_name" class="edit_input" value="{{user.name}}" maxlength="8" placeholder="* 点击输入 （必填）">
+                <input id="edit_name" class="edit_input" v-model=user.name maxlength="8" placeholder="* 点击输入 （必填）">
             </div>
         </div>
 
@@ -59,14 +59,14 @@
         <div class="am-g edit_line">
             <div class="edit_left">标题</div>
             <div class="edit_right">
-                <input id="edit_title" class="edit_input" value="{{user.title}}" maxlength="24" placeholder="例如：腾讯产品经理，专业摄影师，品牌营销顾问等">
+                <input id="edit_title" class="edit_input" v-model=user.title maxlength="24" placeholder="例如：腾讯产品经理，专业摄影师，品牌营销顾问等">
             </div>
         </div>
 
         <div class="am-g edit_line">
             <div class="edit_left">咨询</div>
             <div class="edit_right">
-                <input id="edit_service" class="edit_input" value="{{user.service}}" maxlength="32" placeholder="例如：网站开发、理财咨询、美工设计等">
+                <input id="edit_service" class="edit_input" v-model=user.service maxlength="32" placeholder="例如：网站开发、理财咨询、美工设计等">
             </div>
         </div>
 
@@ -127,28 +127,28 @@
         <div class="am-g edit_line">
             <div class="edit_left">手机</div>
             <div class="edit_right">
-                <input id="edit_phone" class="edit_input" value="{{user.mobile}}" maxlength="12" placeholder="* 点击输入 （必填,不公开）">
+                <input id="edit_phone" class="edit_input" v-model=user.mobile maxlength="12" placeholder="* 点击输入 （必填,不公开）">
             </div>
         </div>
 
         <div class="am-g edit_line" style="margin-top: 30px">
             <div class="edit_left">公司</div>
             <div class="edit_right">
-                <input id="edit_company" class="edit_input" value="{{user.company}}" maxlength="24" placeholder="点击输入 （选填）">
+                <input id="edit_company" class="edit_input" v-model=user.company maxlength="24" placeholder="点击输入 （选填）">
             </div>
         </div>
 
         <div class="am-g edit_line">
             <div class="edit_left">职务</div>
             <div class="edit_right">
-                <input id="edit_position" class="edit_input" value="{{user.position}}" maxlength="24" placeholder="点击输入 （选填）">
+                <input id="edit_position" class="edit_input" v-model=user.position maxlength="24" placeholder="点击输入 （选填）">
             </div>
         </div>
 
         <div class="am-g edit_line">
             <div class="edit_left">网站</div>
             <div class="edit_right">
-                <input id="edit_web" class="edit_input" value="{{user.web}}" maxlength="128" placeholder="点击输入 （选填）">
+                <input id="edit_web" class="edit_input" v-model=user.web maxlength="128" placeholder="点击输入 （选填）">
             </div>
         </div>
 
@@ -158,7 +158,7 @@
 
         <div class="am-g edit_line" style="padding: 0">
             <div  style="width: 100%;margin-top:0;padding: 0 5px">
-                <textarea id='edit_intro' class="edit_intro" rows='8' maxlength="250" placeholder="详细填写个人介绍，可以提升系统排名和用户信任度。（250个字内）">{{user.introduce}}</textarea>
+                <textarea id='edit_intro' class="edit_intro" rows='8' maxlength="250" placeholder="详细填写个人介绍，可以提升系统排名和用户信任度。（250个字内）" v-model=user.introduce></textarea>
             </div>
         </div>
 
@@ -280,7 +280,7 @@ export default {
             prov: '',
             ucity: '',
             citys: [],
-            upload_msg: '',
+            upload_msg: '点击头像 更新照片',
             headers: {},
             method: 'POST',
             action: apiUrl + '/user/avatar',
@@ -314,12 +314,18 @@ export default {
                 return;
             }
 
+            var mvue = this;
             this.$http.post(apiUrl + '/user/info_p', user).then(function (res) {
                 if(res.body.code != 0){
                     console.log('post info failed');
                     console.log(res.body)
                 }
-                alert("更新成功");                
+                if(mvue.user.usertype == 5){
+                    alert("恭喜您！提交成功 \n 我们将在一小时内审核并发布");
+                }
+                else{
+                    alert("更新成功");
+                }             
             }, function (res) {
                 console.log(res)
             });

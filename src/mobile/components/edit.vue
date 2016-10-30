@@ -284,7 +284,7 @@ export default {
             prov: '',
             ucity: '',
             citys: [],
-            upload_msg: '',
+            upload_msg: '点击头像 更新照片',
             headers: {},
             method: 'POST',
             action: apiUrl + '/user/avatar',
@@ -325,7 +325,12 @@ export default {
                     console.log('post info failed');
                     console.log(res.body)
                 }
-                alert("更新成功");                
+                if(this.usertype == 5){
+                    alert("恭喜您！提交成功 <br> 我们将在一小时内审核并发布");
+                }
+                else{
+                    alert("更新成功");
+                }                 
             }, function (res) {
                 console.log(res)
             });
